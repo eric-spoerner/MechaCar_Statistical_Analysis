@@ -1,15 +1,18 @@
 # MechaCar_Statistical_Analysis
 
+## Tools used
+
+* R
+* RStudio
+* tidyverse/dplyr
+
+## The Data
+
+* Two CSV files.  Details coming later.
+
 ## Linear Regression to Predict MPG
 
-What is the r-squared?
-* Multiple: 0.7149
-* Adjusted: 0.6825
-
-What is p?
-* p-value: 5.35e-11
-
-Regression was conducted to determine the impact of the following factors on MPG:
+Using 50 prototype MechaCars, generate a linear model to predict impact on MPG of various factors:
 * Vehicle Length
 * Vehicle Weight
 * Spoiler Angle
@@ -50,25 +53,34 @@ This linear regression model can be considered strongly predictive of MPG given 
 
 ## Summary Statistics on Suspension Coils
 
-write a short summary using screenshots from your total_summary and lot_summary dataframes, and address the following question:
+Results of suspension coils from multiple production lots.  Testing the weight capacity as measured in PSI of each lot. Design specifications for the car dictate that the variance of the suspension coils must not exceed 100 PSI.  This data was tested both in total for all produced coils, as well as based on all three unique production lots.
 
-Variance is 62.29 for aggregate set
+### Total summary
+```
+     Mean Median Variance       SD
+1 1498.78   1500 62.29356 7.892627
+```
+### Lot-based summary
+```
+# A tibble: 3 x 5
+# Groups:   Lot [3]
+  Lot    Mean Median Variance     SD
+  <chr> <dbl>  <dbl>    <dbl>  <dbl>
+1 Lot1  1500   1500     0.980  0.990
+2 Lot2  1500.  1500     7.47   2.73 
+3 Lot3  1496.  1498.  170.    13.0  
+```
 
-1 - 0.980
-2 - 7.47
-3 - 170
-
-The design specifications for the MechaCar suspension coils dictate that the variance of the suspension coils must not exceed 100 pounds per square inch. Does the current manufacturing data meet this design specification for all manufacturing lots in total and each lot individually? Why or why not?
-
+Based on the results of this analysis, we can accept the variance in aggregate for all produced coils (Variance: 62.29 PSI), driven largely by the consistency of lots 1 (0.98 PSI) and 2 (7.47 PSI).  Lot 3, with its variance of 170 PSI, should be rejected.
 
 ## T-Tests on Suspension Coils
 
-Null hypothesis cannot be rejected.  (PSI mean not different enough to match prior)
+With the same suspension coil data, analyze if all manufacturing lots in total as well as each unique lot are statistically different from the population mean of 1,500 PSI.
 
+To do this we will be using a one-sample t-test for each sample, comparing the data against the population's μ<sub>0</sub> of 1,500.
+
+The **total sample** of coils has a μ of 1498.78, with a p-value of 0.0028; therefore H<sub>0</sub> cannot be rejected.  The total set of statistically similar.
 ```	
-One Sample t-test
-
-data:  susp_coil$PSI
 t = -1.8931, df = 149, p-value = 0.06028
 alternative hypothesis: true mean is not equal to 1500
 95 percent confidence interval:
@@ -77,5 +89,36 @@ sample estimates:
 mean of x 
   1498.78 
 ```
-  
-briefly summarize your interpretation and findings for the t-test results. Include screenshots of the t-test to support your summary.
+
+**Lot 1** is *statistically identical* to the population, with a μ of 1500 and a p-value of exactly 1.
+```
+t = 0, df = 49, p-value = 1
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1499.719 1500.281
+sample estimates:
+mean of x 
+     1500 
+```
+
+**Lot 2** has a μ of 1500.2, with a p-value of 0.6072; while there is a discrepancy between this sample and the population's data, the confidence is too low to reject H<sub>0</sub>.
+```
+t = 0.51745, df = 49, p-value = 0.6072
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1499.423 1500.977
+sample estimates:
+mean of x 
+   1500.2 
+```
+
+**Lot 3** has a μ of 1496.14, with a p-value of 0.04168; we can reject H<sub>0</sub> in this case and assume that this lot is statistically dissimilar from the general population.
+```
+t = -2.0916, df = 49, p-value = 0.04168
+alternative hypothesis: true mean is not equal to 1500
+95 percent confidence interval:
+ 1492.431 1499.849
+sample estimates:
+mean of x 
+  1496.14 
+```
