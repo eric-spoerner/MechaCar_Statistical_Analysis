@@ -1,14 +1,28 @@
 # MechaCar_Statistical_Analysis
 
+## Project Summary
+
+The AutosRUs corporation's prototype MechaCar has production troubles that are hampering the rollout of the car, and the team has requested multiple statistical analyses to determine potential causes and other insights.
+
 ## Tools used
 
 * R
 * RStudio
 * tidyverse/dplyr
 
+All analysis outputs in this repository are contained in the file `MechaCarChallenge.RScript`.
+
 ## The Data
 
-* Two CSV files.  Details coming later.
+* Two CSV files:
+    * `MechaCar_mpg.csv` - contains the following data for 50 sampled car prototypes:
+        * Vehicle Length
+        * Vehicle Weight
+        * Spoiler Angle
+        * Ground Clearance
+        * All-wheel Drive
+        * MPG
+    * `Suspension_Coil.csv` - contains weight capacity in PSI for 150 sampled coils across three production lots. 
 
 ## Linear Regression to Predict MPG
 
@@ -47,13 +61,13 @@ Multiple R-squared:  0.7149,	Adjusted R-squared:  0.6825
 F-statistic: 22.07 on 5 and 44 DF,  p-value: 5.35e-11
 ```
 
-Vehicle length and ground clearance variables appear to have the most non-random amount of variance based on their minuscule p scores, and therefore the most direct impact on the car's MPG.  This is made clear by their coefficients in the linear regression model, which are **6.267** and **3.546**, respectively.
+**Vehicle length** and **ground clearance** variables appear to have the most non-random amount of variance based on their minuscule p scores, and therefore the most direct impact on the car's MPG.  This is made clear by their coefficients in the linear regression model, which are **6.267** and **3.546**, respectively.
 
 This linear regression model can be considered strongly predictive of MPG given the r-squared value of **0.7149**.  Along with a p-value of **5.35e-11**, which is effectively zero, we can confidently reject the null hypothesis that these data points are not predictive.
 
 ## Summary Statistics on Suspension Coils
 
-Results of suspension coils from multiple production lots.  Testing the weight capacity as measured in PSI of each lot. Design specifications for the car dictate that the variance of the suspension coils must not exceed 100 PSI.  This data was tested both in total for all produced coils, as well as based on all three unique production lots.
+This analysis tests the weight capacity as measured in PSI of each lot. Design specifications for the car dictate that the variance of the suspension coils must not exceed 100 PSI.  This data was tested both in total for all produced coils, as well as based on all three unique production lots.
 
 ### Total summary
 ```
@@ -75,7 +89,7 @@ Based on the results of this analysis, we can accept the variance in aggregate f
 
 ## T-Tests on Suspension Coils
 
-With the same suspension coil data, analyze if all manufacturing lots in total as well as each unique lot are statistically different from the population mean of 1,500 PSI.
+Using the same suspension coil data, this test analyzes if all manufacturing lots in total as well as each unique lot are statistically different from the population mean of 1,500 PSI.
 
 To do this we will be using a one-sample t-test for each sample, comparing the data against the population's μ<sub>0</sub> of 1,500.
 
@@ -122,3 +136,17 @@ sample estimates:
 mean of x 
   1496.14 
 ```
+
+## Study Design: MechaCar vs Competition
+As a further analysis (not included in code base), consider the following study to determine the overall cost to maintain the MechaCar vs the competition.
+
+Study: **Annual Maintenance cost**
+* Null hypothesis (H<sub>0</sub>): over one year, the maintenance cost for a MechaCar is identical to the competition.  (μ = μ<sub>0</sub>)
+* Alternate hypothesis (H<sub>a</sub>): over one year, the maintenance cost for a MechaCar is lower than the competititon. (μ < μ<sub>0</sub>)
+
+* Test type: One-sided left-tailed t-test
+
+* Run multiple tests for varying categories of car type to control for the following discrete values:
+    * Engine cylinders
+    * AWD
+    * Chassis type

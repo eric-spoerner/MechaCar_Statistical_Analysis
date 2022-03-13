@@ -1,0 +1,39 @@
+# Load dplyr script
+library(dplyr)
+
+# Load CSV
+mpg <- read.csv('MechaCar_mpg.csv')
+
+# Run linear regression on MPG
+print("Run linear regression on MPG: ")
+print(lm(formula=mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD, data=mpg))
+print(summary(lm(formula=mpg ~ vehicle_length + vehicle_weight + spoiler_angle + ground_clearance + AWD, data=mpg)))
+
+# Run statistical analysis on suspension coil data
+susp_coil = read.csv('Suspension_Coil.csv')
+
+total_summary <- summarize(susp_coil, mean(PSI), median(PSI), var(PSI), sd(PSI))
+names(total_summary) <- c("Mean", "Median", "Variance", "SD")
+print("Total summary: ")
+print(total_summary)
+
+lot_summary <- susp_coil %>% group_by(Manufacturing_Lot) %>% summarize(mean(PSI), median(PSI), var(PSI), sd(PSI), .groups="keep")
+names(lot_summary) <- c("Lot", "Mean", "Median", "Variance", "SD")
+print("Lot Summary: ")
+print(lot_summary)
+
+# Run t-tests on coils
+print("T-test on full set of coils:")
+print(t.test(x=susp_coil$PSI,mu=1500))
+
+# t test for individual lots
+lot1 <- susp_coil %>% subset(susp_coil$Manufacturing_Lot=='Lot1')
+lot2 <- susp_coil %>% subset(susp_coil$Manufacturing_Lot=='Lot2')
+lot3 <- susp_coil %>% subset(susp_coil$Manufacturing_Lot=='Lot3')
+
+print("Lot 1:")
+print(t.test(x=lot1$PSI,mu=1500))
+print("Lot 2:")
+print(t.test(x=lot2$PSI,mu=1500))
+print("Lot 3:")
+print(t.test(x=lot3$PSI,mu=1500))
